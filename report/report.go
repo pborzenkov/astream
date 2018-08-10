@@ -1,7 +1,6 @@
 package report
 
 import (
-	"fmt"
 	"io"
 	"sort"
 	"time"
@@ -97,10 +96,8 @@ func (r *Report) Slice(from, to time.Time) *Report {
 	from = from.Truncate(24 * time.Hour)
 	to = to.Truncate(24 * time.Hour)
 
-	fmt.Printf("slicing from %v to %v\n", from, to)
-
 	for _, t := range r.transactions {
-		if from.Before(t.date) && (to.IsZero() || t.date.Before(to)) {
+		if (t.date.Equal(from) || t.date.After(from)) && (to.IsZero() || t.date.Before(to)) {
 			nr.addTransaction(t)
 		}
 	}
