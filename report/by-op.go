@@ -51,6 +51,10 @@ func (r *Report) AggregateByOperation(g GroupType) []*AggregationByOp {
 			})
 			c = t.date
 		}
+		if t.ttype == "пени" {
+			t.ttype = "проценты"
+		}
+
 		a[len(a)-1].Ops.Add(t.ttype, t.amount)
 	}
 
