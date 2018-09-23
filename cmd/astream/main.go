@@ -13,10 +13,13 @@ func main() {
 	app.HelpFlag.Short('h')
 
 	byOpCmd := addByOpCommand(app)
+	addToBanktivityCmd := addAddToBanktivityCommand(app)
 
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case byOpCmd.FullCommand():
 		exit(byOp())
+	case addToBanktivityCmd.FullCommand():
+		exit(addToBanktivity())
 	}
 }
 
