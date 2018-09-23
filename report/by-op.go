@@ -38,9 +38,26 @@ type AggregationByOp struct {
 	Ops  Operations
 }
 
-func (r *Report) AggregateByOperation(g GroupType) []*AggregationByOp {
+type AggregateByOperationOption func(*aggregateByOperationConfig)
+
+type aggregateByOperationConfig struct {
+	separateFine bool
+}
+
+func WithSeparateFine(v bool) AggregateByOperationOption {
+	return func(cfg *aggregateByOperationConfig) {
+		cfg.separateFine = v
+	}
+}
+
+func (r *Report) AggregateByOperation(g GroupType, opts ...AggregateByOperationOption) []*AggregationByOp {
 	var c time.Time
 	var a []*AggregationByOp
+
+	var cfg aggregateByOperationConfig
+	for _, opt := range opts {
+		opt(&cfg)
+	}
 
 	for _, t := range r.transactions {
 		if !g.Same(c, t.date) {
@@ -51,7 +68,7 @@ func (r *Report) AggregateByOperation(g GroupType) []*AggregationByOp {
 			})
 			c = t.date
 		}
-		if t.ttype == "пени" {
+		if !cfg.separateFine && t.ttype == "пени" {
 			t.ttype = "проценты"
 		}
 
