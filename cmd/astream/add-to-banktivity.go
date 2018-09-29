@@ -96,7 +96,7 @@ func addToBanktivity() error {
 	}
 
 	return errors.Wrap(
-		exec.Command("open", "-a", "Banktivity 6", "-W", f.Name()).Run(),
+		exec.Command("open", "-a", "Banktivity 7", "-W", f.Name()).Run(),
 		"exec.Command.Run",
 	)
 }
