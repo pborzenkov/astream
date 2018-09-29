@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"text/template"
+	"time"
 
 	"github.com/alecthomas/kingpin"
 	"github.com/pborzenkov/astream/report"
@@ -94,6 +95,12 @@ func addToBanktivity() error {
 	if err = f.Close(); err != nil {
 		return errors.Wrap(err, "os.File.Close")
 	}
+
+	if err := exec.Command("open", "-a", "Banktivity 7").Run(); err != nil {
+		return errors.Wrap(err, "exec.Command.Run()")
+	}
+
+	time.Sleep(3 * time.Second)
 
 	return errors.Wrap(
 		exec.Command("open", "-a", "Banktivity 7", "-W", f.Name()).Run(),
