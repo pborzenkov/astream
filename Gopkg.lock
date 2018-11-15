@@ -2,12 +2,12 @@
 
 
 [[projects]]
-  digest = "1:22b2dee6f30bc8601f087449a2a819df8388e54e9547349c658f14d8f8c590f2"
+  branch = "master"
+  digest = "1:5ec625d0c8f2677095686e906db21babe92e43f27b5aebe15a7d330b84e497ba"
   name = "github.com/alecthomas/kingpin"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "947dcec5ba9c011838740e680966fd7087a71d0d"
-  version = "v2.2.6"
+  revision = "102f372a17d46c8a97ded5c1259d0566c318cb20"
 
 [[projects]]
   branch = "master"
