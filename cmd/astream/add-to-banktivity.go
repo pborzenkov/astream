@@ -50,20 +50,25 @@ var addToBanktivityParams struct {
 	group report.GroupType
 }
 
+func suggestDateFromToday(delta time.Duration) func() []string {
+	return func() []string {
+		return []string{time.Now().Add(-delta).Format("2006/01/02")}
+	}
+}
+
 func addAddToBanktivityCommand(app *kingpin.Application) *kingpin.CmdClause {
 	cmd := app.Command("add-to-banktivity", "Generate investment report aggregated by operation type and add it to Banktivity.")
-	cmd.Arg(
-		"report-file",
-		"Report file to aggregate.",
-	).Required().ExistingFileVar(&addToBanktivityParams.path)
-	cmd.Flag(
-		"from",
-		"Start of the aggregation date range (closed).",
-	).Short('f').SetValue(&addToBanktivityParams.from)
-	cmd.Flag(
-		"to",
-		"End of the aggregation date range (open).",
-	).Short('t').SetValue(&addToBanktivityParams.to)
+	cmd.Arg("report-file", "Report file to aggregate.").
+		Required().
+		ExistingFileVar(&addToBanktivityParams.path)
+	cmd.Flag("from", "Start of the aggregation date range (closed).").
+		Short('f').
+		HintAction(suggestDateFromToday(7 * 24 * time.Hour)).
+		SetValue(&addToBanktivityParams.from)
+	cmd.Flag("to", "End of the aggregation date range (open).").
+		Short('t').
+		HintAction(suggestDateFromToday(time.Duration(0))).
+		SetValue(&addToBanktivityParams.to)
 
 	return cmd
 }
